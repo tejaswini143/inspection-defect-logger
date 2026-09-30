@@ -45,18 +45,20 @@ def _require(path):
     inspection = storage.load(path)
     if inspection is None:
         raise ValueError(
-            "No inspection started. Run: python -m defect_logger start "
-            "--batch-id <id> --sample-size <n>"
+            f"No inspection started in {path}. Run: python -m defect_logger start "
+            "--batch-id <id> --sample-size <n> (use the same --file for every command)"
         )
     return inspection
 
 
 def _start(args, out):
-    if storage.load(args.file) is not None and not args.force:
+    # Validate the input first, so bad input is always reported as bad input,
+    # whether or not an inspection already exists.
+    inspection = Inspection(args.batch_id, parse_sample_size(args.sample_size))
+    if not args.force and storage.load(args.file) is not None:
         raise ValueError(
             f"An inspection already exists in {args.file}. Use --force to replace it."
         )
-    inspection = Inspection(args.batch_id, parse_sample_size(args.sample_size))
     storage.save(inspection, args.file)
     print(f"Started inspection {inspection.batch_id} (sample size {inspection.sample_size}).", file=out)
 

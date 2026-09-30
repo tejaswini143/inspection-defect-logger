@@ -99,3 +99,23 @@ def test_corrupt_file_does_not_crash(tmp_path):
     p.write_text("garbage", encoding="utf-8")
     code, _, err = run(p, "verdict")
     assert code == 1 and "not valid JSON" in err
+
+
+@pytest.mark.parametrize("size", ["0", "-5", "12.5", "ab"])
+def test_invalid_sample_size_is_reported_even_if_inspection_exists(tmp_path, size):
+    p = tmp_path / "i.json"
+    start(p)
+    code, _, err = start(p, size)
+    assert code == 1
+    assert "Sample size" in err
+    assert "already exists" not in err
+
+
+def test_force_start_replaces_a_corrupt_file(tmp_path):
+    p = tmp_path / "i.json"
+    p.write_text("garbage", encoding="utf-8")
+    # Without --force the corrupt file is reported, not silently overwritten.
+    assert start(p)[0] == 1
+    code, _, _ = run(p, "start", "--batch-id", "B", "--sample-size", "40", "--force")
+    assert code == 0
+    assert "Verdict: ACCEPT" in run(p, "verdict")[1]

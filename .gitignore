@@ -3,3 +3,6 @@ __pycache__/
 .pytest_cache/
 .venv/
 inspection.json
+b2.json
+settings.json
+t.json
