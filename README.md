@@ -14,7 +14,7 @@ Developed and tested on Python 3.14 (Windows). It uses only the standard library
 Windows (PowerShell):
 
 ```powershell
-git clone <REPO-URL>
+git clone https://github.com/tejaswini143/inspection-defect-logger
 cd inspection-defect-logger
 python -m venv .venv
 .venv\Scripts\Activate.ps1
@@ -27,7 +27,7 @@ If PowerShell refuses to run the activate script, run
 macOS / Linux:
 
 ```bash
-git clone <REPO-URL>
+git clone https://github.com/tejaswini143/inspection-defect-logger
 cd inspection-defect-logger
 python3 -m venv .venv
 source .venv/bin/activate
@@ -36,20 +36,18 @@ python -m pip install -r requirements.txt
 
 ## Run
 
-```
 python -m defect_logger start --batch-id B-1 --sample-size 40
 python -m defect_logger add --severity major --description "cracked lid"
 python -m defect_logger list
 python -m defect_logger verdict
-```
+
 
 Example output of `verdict`:
 
-```
 Batch: B-1 (sample size 40)
 Critical: 0 (limit 0), Major: 1 (limit 3), Minor: 0 (limit 6)
 Verdict: ACCEPT
-```
+
 
 Notes:
 
@@ -64,9 +62,8 @@ Notes:
 
 ## Run the tests
 
-```
 python -m pytest
-```
+
 
 ## Verdict rule (from the brief)
 
@@ -78,5 +75,9 @@ Otherwise ACCEPT (including zero defects).
 ## Time spent
 
 Roughly 4 hours.
+
+## AI session
+
+https://claude.ai/share/87567b02-ad90-4a38-9dea-240a9ba71711
 
 See DECISIONS.md for where the AI went wrong, what I left out, and what is still risky.
